@@ -3,7 +3,7 @@
 
   inputs = {
     ogmios = {
-      url = "github:CardanoSolutions/ogmios/v5.2.0";
+      url = "github:CardanoSolutions/ogmios/v5.5.0";
       flake = false;
     };
     haskellNix = {
@@ -14,7 +14,7 @@
       url = "github:input-output-hk/iohk-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.follows = "haskellNix/nixpkgs-2111";
+    nixpkgs.follows = "haskellNix/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     config.url = "github:input-output-hk/empty-flake";
   };
