@@ -407,16 +407,16 @@
     "ogmios": {
       "flake": false,
       "locked": {
-        "lastModified": 1656506283,
-        "narHash": "sha256-Vsf2qH41t95IyRM470zHcPSGQUSfkUPdQwU290yjBDc=",
+        "lastModified": 1657031164,
+        "narHash": "sha256-xFMv1NNW6nCpFzNDfG+tCy2Gu984Us3roo7nkS59alo=",
         "owner": "CardanoSolutions",
         "repo": "ogmios",
-        "rev": "237b4ea9bc0312405af16afccda2277f9ae3f819",
+        "rev": "c32341e56ccbeb1cf1e803d4607699668a1e2cc2",
         "type": "github"
       },
       "original": {
         "owner": "CardanoSolutions",
-        "ref": "v5.5.0",
+        "ref": "v5.5.1",
         "repo": "ogmios",
         "type": "github"
       }
