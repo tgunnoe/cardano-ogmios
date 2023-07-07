@@ -3,12 +3,18 @@
 
   inputs = {
     ogmios = {
-      url = "github:CardanoSolutions/ogmios/v5.5.1";
+      url = "github:CardanoSolutions/ogmios/v5.6.0";
       flake = false;
     };
     haskellNix = {
-      url = "github:input-output-hk/haskell.nix";
+      # Haskell.nix update 2023/03/22
+      url = "github:input-output-hk/haskell.nix/5c1276b35d8b4e8069bb065896d2e7dc022510b3";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    CHaP = {
+      # CHaP update 2023/03/23, repo branch
+      url = "github:input-output-hk/cardano-haskell-packages/4a15403f6adbac6f47bcedbabac946f9c2636e59";
+      flake = false;
     };
     iohkNix = {
       url = "github:input-output-hk/iohk-nix";
@@ -25,7 +31,7 @@
     config.url = "github:input-output-hk/empty-flake";
   };
 
-  outputs = { self, ogmios, iohkNix, haskellNix, nixpkgs, flake-utils, tullia, config, ... }:
+  outputs = { self, ogmios, iohkNix, haskellNix, CHaP, nixpkgs, flake-utils, tullia, config, ... }:
     let
       inherit (nixpkgs) lib;
       inherit (flake-utils.lib) eachSystem mkApp flattenTree;
@@ -35,10 +41,13 @@
 
       supportedSystems = config.supportedSystems or (import ./nix/supported-systems.nix);
 
+      inputMap = { "https://input-output-hk.github.io/cardano-haskell-packages" = CHaP; };
+
       overlay = final: prev: {
         ogmiosHaskellProject = self.legacyPackages.${final.system};
         inherit (final.cardanoOgmiosHaskellProject.hsPkgs.ogmios.components.exes) ogmios;
       };
+
       nixosModule = { pkgs, lib, ... }: {
         imports = [ ./nix/nixos/cardano-ogmios-service.nix ];
         services.cardano-ogmios.package = lib.mkDefault self.defaultPackage.${pkgs.system};
@@ -52,16 +61,16 @@
             inherit system;
             inherit (haskellNix) config;
             overlays = [
-              haskellNix.overlay
-              iohkNix.overlays.utils
               iohkNix.overlays.crypto
+              haskellNix.overlay
               iohkNix.overlays.haskell-nix-extra
               iohkNix.overlays.cardano-lib
+              iohkNix.overlays.utils
               overlay
             ];
           };
 
-          project = (import ./nix/haskell.nix pkgs.haskell-nix ogmios).appendModule (config.haskellNix or { });
+          project = (import ./nix/haskell.nix pkgs.haskell-nix ogmios inputMap).appendModule (config.haskellNix or { });
 
           scripts = flattenTree (import ./nix/scripts.nix {
             inherit project evalService;

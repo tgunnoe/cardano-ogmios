@@ -1,6 +1,7 @@
 # This creates the Haskell package set.
 # https://input-output-hk.github.io/haskell.nix/user-guide/projects/
-haskell-nix: src: haskell-nix.cabalProject' {
+haskell-nix: src: inputMap: haskell-nix.cabalProject' {
+  inherit inputMap;
   name = "ogmios";
   src = haskell-nix.haskellLib.cleanSourceWith {
     name = "ogmios-src";
@@ -19,9 +20,14 @@ haskell-nix: src: haskell-nix.cabalProject' {
     }
     ({ pkgs, ... }: {
       # Use the VRF fork of libsodium
-      packages = pkgs.lib.genAttrs [ "cardano-crypto-praos" "cardano-crypto-class" ] (_: {
-        components.library.pkgconfig = pkgs.lib.mkForce [ [ pkgs.libsodium-vrf ] ];
-      });
+      packages = {
+        cardano-crypto-praos.components.library.pkgconfig = pkgs.lib.mkForce [
+          [ pkgs.libsodium-vrf ]
+        ];
+        cardano-crypto-class.components.library.pkgconfig = pkgs.lib.mkForce [
+          [ pkgs.libsodium-vrf pkgs.secp256k1 ]
+        ];
+      };
     })
   ];
 }
