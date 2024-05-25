@@ -25,7 +25,7 @@ haskell-nix: src: inputMap: haskell-nix.cabalProject' {
           [ pkgs.libsodium-vrf ]
         ];
         cardano-crypto-class.components.library.pkgconfig = pkgs.lib.mkForce [
-          [ pkgs.libsodium-vrf pkgs.secp256k1 ]
+          [ pkgs.libsodium-vrf pkgs.secp256k1 pkgs.libblst ]
         ];
       };
     })
