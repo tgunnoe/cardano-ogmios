@@ -3,17 +3,15 @@
 
   inputs = {
     ogmios = {
-      url = "github:CardanoSolutions/ogmios/v5.6.0";
+      url = "github:CardanoSolutions/ogmios/v6.3.0";
       flake = false;
     };
     haskellNix = {
-      # Haskell.nix update 2023/03/22
-      url = "github:input-output-hk/haskell.nix/5c1276b35d8b4e8069bb065896d2e7dc022510b3";
+      url = "github:input-output-hk/haskell.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     CHaP = {
-      # CHaP update 2023/03/23, repo branch
-      url = "github:input-output-hk/cardano-haskell-packages/4a15403f6adbac6f47bcedbabac946f9c2636e59";
+      url = "github:intersectMBO/cardano-haskell-packages/repo";
       flake = false;
     };
     iohkNix = {
@@ -34,13 +32,12 @@
   outputs = { self, ogmios, iohkNix, haskellNix, CHaP, nixpkgs, flake-utils, tullia, config, ... }:
     let
       inherit (nixpkgs) lib;
-      inherit (flake-utils.lib) eachSystem mkApp flattenTree;
+      inherit (flake-utils.lib) eachSystem flattenTree;
       inherit (iohkNix.lib) evalService;
-
-      removeRecurse = lib.filterAttrsRecursive (n: _: n != "recurseForDerivations");
 
       supportedSystems = config.supportedSystems or (import ./nix/supported-systems.nix);
 
+      # Ogmios repo still declares the cardano-haskell-packages repository using the legacy iohk url
       inputMap = { "https://input-output-hk.github.io/cardano-haskell-packages" = CHaP; };
 
       overlay = final: prev: {
