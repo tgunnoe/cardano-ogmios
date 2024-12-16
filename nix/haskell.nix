@@ -15,7 +15,7 @@ haskell-nix: src: inputMap: haskell-nix.cabalProject' {
 
   sha256map = {
     # ogmios repo cabal.project missing srp nix hashes
-    "https://github.com/CardanoSolutions/cardano-ledger"."837089f9b253c8a51b93a039b7e656e8ca5b6b70" = "sha256-tND3yRSaWqDnI8HVrj1FzvVg0umWQSFRhcRNuSecc+Y=";
+    "https://github.com/CardanoSolutions/cardano-ledger"."9ab8b326981a94d4b57cb0427709845ab67ef975" = "sha256-Aed1QrKsdY/srz0CX1x3yQ7NF+1vIwv+c0bRRw+Oi9M=";
   };
 
   # Ogmios repo server/modules/fast-bech32/fast-bech32.cabal requires base >=4.17 && <5
@@ -25,7 +25,7 @@ haskell-nix: src: inputMap: haskell-nix.cabalProject' {
   #   ghc948: fails to build src/ouroboros-consensus/Ouroboros/Consensus/Block/RealPoint.hs:97:65: error: Could not deduce (HasHeader blk)
   #   ghc965: builds
   #   ghc982: builds
-  compiler-nix-name = "ghc982";
+  compiler-nix-name = "ghc984";
 
   modules = [
     {

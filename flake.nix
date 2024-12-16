@@ -3,7 +3,7 @@
 
   inputs = {
     ogmios = {
-      url = "github:CardanoSolutions/ogmios/v6.3.0";
+      url = "github:CardanoSolutions/ogmios/v6.7.0";
       flake = false;
     };
     haskellNix = {
@@ -20,16 +20,10 @@
     };
     nixpkgs.follows = "haskellNix/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    tullia = {
-      url = "github:input-output-hk/tullia";
-      # XXX uncomment once our version of nixpkgs has this fix:
-      # https://github.com/NixOS/nixpkgs/commit/3fae68b30cfc27a7df5beaf9aaa7cb654edd8403
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
     config.url = "github:input-output-hk/empty-flake";
   };
 
-  outputs = { self, ogmios, iohkNix, haskellNix, CHaP, nixpkgs, flake-utils, tullia, config, ... }:
+  outputs = { self, ogmios, iohkNix, haskellNix, CHaP, nixpkgs, flake-utils, config, ... }:
     let
       inherit (nixpkgs) lib;
       inherit (flake-utils.lib) eachSystem flattenTree;
@@ -93,8 +87,7 @@
 
           # Run by `nix run .`
           defaultApp = apps.ogmios;
-        } //
-          tullia.fromSimple system (import ./nix/tullia.nix self system)
+        }
       ) // {
       inherit overlay nixosModule;
       nixosModules.ogmios = nixosModule;
