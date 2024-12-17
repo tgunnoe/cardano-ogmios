@@ -15,7 +15,7 @@ haskell-nix: src: inputMap: haskell-nix.cabalProject' {
 
   sha256map = {
     # ogmios repo cabal.project missing srp nix hashes
-    "https://github.com/CardanoSolutions/cardano-ledger"."9ab8b326981a94d4b57cb0427709845ab67ef975" = "sha256-Aed1QrKsdY/srz0CX1x3yQ7NF+1vIwv+c0bRRw+Oi9M=";
+    "https://github.com/CardanoSolutions/cardano-ledger"."f051a2ed0db076a869d14643a65ce6e8250b6324" = "sha256-bs1nH5FStsT1nmv8zbBvZDy/MxThgnxYlX4WXT8NKf4=";
   };
 
   # Ogmios repo server/modules/fast-bech32/fast-bech32.cabal requires base >=4.17 && <5
